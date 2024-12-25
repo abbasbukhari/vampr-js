@@ -51,6 +51,45 @@ class Vampire {
 
     return null;
   }
+
+  vampireWithName(name) {
+    if (this.name === name) {
+      return this;
+    }
+
+    for (const offspring of this.offspring) {
+      const result = offspring.vampireWithName(name);
+      if (result) {
+        return result;
+      }
+    }
+
+    return null;
+  }
+
+  get totalDescendents() {
+    let count = 0;
+
+    for (const offspring of this.offspring) {
+      count += 1 + offspring.totalDescendents;
+    }
+
+    return count;
+  }
+
+  get allMillennialVampires() {
+    let millennials = [];
+
+    if (this.yearConverted > 1980) {
+      millennials.push(this);
+    }
+
+    for (const offspring of this.offspring) {
+      millennials = millennials.concat(offspring.allMillennialVampires);
+    }
+
+    return millennials;
+  }
 }
 
 module.exports = Vampire;
